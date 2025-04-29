@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Validador de Bandeira de Cartão</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 50px;
+            background-color: #f4f4f4;
+        }
+        input, button {
+            padding: 10px;
+            margin-top: 10px;
+            width: 300px;
+        }
+        .resultado {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h2>Validador de Bandeira de Cartão de Crédito</h2>
+    <input type="text" id="numeroCartao" placeholder="Digite o número do cartão" />
+    <br>
+    <button onclick="validarCartao()">Validar Bandeira</button>
+    <div class="resultado" id="resultado"></div>
+
+    <script>
+        function identificarBandeira(numero) {
+            numero = numero.replace(/\s+/g, '');
+
+            if (/^4[0-9]{12}(?:[0-9]{3})?$/.test(numero)) {
+                return "Visa";
+            } else if (/^5[1-5][0-9]{14}$/.test(numero) || /^2(2[2-9][0-9]{12}|[3-6][0-9]{13}|7[01][0-9]{12}|720[0-9]{12})$/.test(numero)) {
+                return "MasterCard";
+            } else if (/^3[47][0-9]{13}$/.test(numero)) {
+                return "American Express";
+            } else if (/^3(?:0[0-5]|[68][0-9])[0-9]{11}$/.test(numero)) {
+                return "Diners Club";
+            } else if (/^6(?:011|5[0-9]{2})[0-9]{12}$/.test(numero)) {
+                return "Discover";
+            } else if (/^(?:2131|1800|35\d{3})\d{11}$/.test(numero)) {
+                return "JCB";
+            } else {
+                return "Bandeira desconhecida";
+            }
+        }
+
+        function validarCartao() {
+            const numero = document.getElementById("numeroCartao").value;
+            const resultado = identificarBandeira(numero);
+            document.getElementById("resultado").innerText = "Bandeira: " + resultado;
+        }
+    </script>
+</body>
+</html>
